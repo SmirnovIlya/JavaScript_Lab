@@ -1,7 +1,7 @@
-var userName=prompt('Write your name','');
+﻿var userName=prompt('Write your name','');
 
 if(userName=='admin'){
-    var connfirmation=prompt('Ok, write your password','');
+    var password=prompt('Ok, write your password','');
     if(password=='Чёрный властелин'){
         alert('Добро пожаловать!');
     } else if (password===null){

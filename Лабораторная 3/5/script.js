@@ -1,27 +1,44 @@
-var bulk = new Array(99).fill (true,2);  //создание и заполнение массива
+function Calculator() {
 
-//первое число простое
-var p = 2;
+    var methods = {           //оперделение метода
+        "-": function(a, b) {
+            return a - b;
+        },
+        "+": function(a, b) {
+            return a + b;
+        }
+    };
 
-do {
-    //"выключаем" элементы массива, кратные p
-    for (var i = 2 * p; i < 100; i += p) {
-        bulk[i] = false;
-    }
+    this.calculate = function(str) {  //функция расчета
 
-    //присвоение i следующего числа после p, проверка его на true
-    for (i = p + 1; i < 100; i++) {
-        if (bulk[i]) break;
-    }
+        var split = str.split(' '),
+            a = +split[0],
+            op = split[1],
+            b = +split[2];
 
-    p = i; //и предыдущий шаг позволит найти следующее простое p
+        if (!methods[op] || isNaN(a) || isNaN(b)) {  //проверка на NaN a и b, а также существование метода
+            return NaN;
+        }
 
-} while (p * p < 100); //и весь цикл do работает, пока p^2 не больше 100
+        return methods[op](a, b);  // возвращение метода над a и b
+    };
 
-var sum = 0;
-for (i = 0; i < bulk.length; i++) {   //считаем сумму по всем индексам, оставшимся true
-    if (bulk[i]) {
-        sum += i;
-    }
+    this.addMethod = function(name, func) {  //определение добавления метода к уже имеющимся в объекте
+        methods[name] = func;
+    };
 }
-alert (sum);
+
+var calc = new Calculator;           //создание из конструкотора нового калькулятора
+
+calc.addMethod("*", function(a, b) { //добавление умножения
+    return a * b;
+});
+calc.addMethod("/", function(a, b) {  //добавление деления
+    return a / b;
+});
+calc.addMethod("**", function(a, b) {  //добавление возведения в спепень
+    return Math.pow(a, b);
+});
+
+var result = calc.calculate("6 ** 4");
+alert( result );
